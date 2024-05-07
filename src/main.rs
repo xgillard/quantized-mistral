@@ -36,7 +36,7 @@ fn model(quantized_repo: &str, file_id: &str, device: &Device) -> Result<Model> 
     Ok(model)
 }
 
-fn pipeline(model: &mut Model, tokenizer: &Tokenizer, device: &Device, prompt: &str, eos_token: &str, max_new_tokens: usize) -> Result<String> {
+fn pipeline(model: &mut Model, tokenizer: &Tokenizer, device: &Device, prompt: &str, eos_token: &str) -> Result<String> {
     let add_special_tokens = true;
     let seed = 42;
     
@@ -56,7 +56,7 @@ fn pipeline(model: &mut Model, tokenizer: &Tokenizer, device: &Device, prompt: &
 
     // actually generate the output (one token at the time)
     let mut tokens = vec![];
-    for pos in 0..max_new_tokens {
+    for pos in 0.. { // on ne s'arrete que lorsque le eos token a été produit
         let x = Tensor::new(&[next_token], device)?.unsqueeze(0)?;
         let logits = model.forward(&x, prompt_len + pos)?.squeeze(0)?;
         next_token = processor.sample(&logits)?;
@@ -75,7 +75,6 @@ fn main() -> Result<()>{
     let file_id  = "mistral-7b-instruct-v0.2.Q4_K_M.gguf";
     //
     let eos      = "</s>";
-    let max_new_tokens = 20_000;
 
     let device = if cuda_is_available() {
         Device::new_cuda(0)? 
@@ -87,7 +86,7 @@ fn main() -> Result<()>{
     let mut model = model(model_id, file_id, &device)?;
 
     let prompt = "[INST] Ecris moi une histoire du soir pour deux jeunes garcons (Simon et Augustin) qui ont 8 et 6 ans. Je veux que ton histoire parle de dinosaures, de drones et de montagnes russes a efteling [/INST]";
-    let response = pipeline(&mut model, &tokenizer, &device, prompt, eos, max_new_tokens)?;
+    let response = pipeline(&mut model, &tokenizer, &device, prompt, eos)?;
     println!("{response}");
     Ok(())
 }
