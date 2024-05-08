@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.83"
 candle-core         = { version = "0.5.0", features = ["cuda", "cudnn"] }
+candle-nn           = { version = "0.5.0", features = ["cuda"] }
 candle-transformers = { version = "0.5.0", features = ["cuda"] }
 hf-hub     = "0.3.2"
 structopt = "0.3.26"

@@ -1,23 +1,29 @@
 use std::{fs::File, io::{stdin, Read}};
 
 use anyhow::Result;
-use candle_core::{quantized::gguf_file::Content, utils::cuda_is_available, Device, Tensor};
+use candle_core::{utils::cuda_is_available, Device, Tensor};
+use candle_core::quantized::gguf_file::Content;
+//use candle_transformers::models::quantized_llama::{ModelWeights as Model};
 //use candle_transformers::models::quantized_mistral::{Config, VarBuilder, Model};
-use candle_transformers::{generation::{LogitsProcessor, Sampling}, models::quantized_llama::ModelWeights as Model};
+use candle_transformers::generation::{LogitsProcessor, Sampling};
 use structopt::StructOpt;
 use tokenizers::Tokenizer;
+
+mod qllama;
+
+use crate::qllama::ModelWeights as Model;
 
 /// This program runs your prompt against a quantized llm and yields its answer
 #[derive(StructOpt)]
 pub struct Args {
     /// The repository of the original (not quantized) model
-    #[structopt(short="o", long, default_value="mistralai/Mistral-7B-Instruct-v0.2")]
+    #[structopt(short="o", long, default_value="mistralai/Mistral-7B-Instruct-v0.2")] //default_value="lmz/candle-mistral")] //
     original: String,
     /// The repository of the quantized model
-    #[structopt(short="r", long, default_value="TheBloke/Mistral-7B-Instruct-v0.2-GGUF")]
+    #[structopt(short="r", long, default_value="TheBloke/Mistral-7B-Instruct-v0.2-GGUF")]//default_value="lmz/candle-mistral")]//
     quantized_repo: String,
     /// The file (specific version) of the quantized model to run
-    #[structopt(short="m", long, default_value="mistral-7b-instruct-v0.2.Q4_K_M.gguf")]
+    #[structopt(short="m", long, default_value="mistral-7b-instruct-v0.2.Q5_K_M.gguf")]//default_value="mistral-7b-instruct-v0.2.Q4_K_M.gguf")]//default_value="model-q4k.gguf")]//
     quantized_model: String,
     /// The EOS tokent to use with this model
     #[structopt(short="e", long, default_value="</s>")]
@@ -28,6 +34,10 @@ pub struct Args {
 
 fn main() -> Result<()>{
     let args = Args::from_args();
+
+    candle_core::quantized::cuda::set_force_dmmv(true);
+    candle_core::cuda::set_gemm_reduced_precision_f16(true);
+    candle_core::cuda::set_gemm_reduced_precision_bf16(true);
 
     let device = if cuda_is_available() {
         Device::new_cuda(0)? 
@@ -62,7 +72,7 @@ fn model(quantized_repo: &str, file_id: &str, device: &Device) -> Result<Model> 
 
     // THIS  WOULD HAVE BEEN THE 'CLEAN WAY' TO GO
     // ---------------------------------------------------------------------------------------
-    //let flash_attn = true;
+    //let flash_attn: bool = false;
     //let config = Config::config_7b_v0_1(flash_attn);
     //let varbuilder = VarBuilder::from_gguf(model_file, device)?;
     //let model = Model::new(&config, varbuilder)?;
@@ -97,28 +107,27 @@ fn pipeline(model: &mut Model, tokenizer: &Tokenizer, device: &Device, prompt: &
 
     let inputs = tokenizer.encode(prompt, add_special_tokens).map_err(anyhow::Error::msg)?;
     let inputs = inputs.get_ids();
-    let inputs_len= inputs.len();
     
     // priming the model with the prompt
     let mut pos = 0;
     let mut next_token = 0;
-    for token in inputs.iter().copied() {
-        let x = Tensor::new(&[token], device)?.reshape((1, 1))?;
-        let logits = model.forward(&x, pos)?.squeeze(0)?;
-        pos       += 1;
+    for chunk in inputs.chunks(512) {
+        let x = Tensor::new(chunk, device)?.unsqueeze(0)?;
+        let logits = model.forward_with_mask(&x, pos, None)?.reshape(((),))?;
+        pos       += chunk.len();
         next_token = processor.sample(&logits)?;
     }
-
+    println!("== primed ==");
     // actually generate the output (one token at the time)
-    let mut tokens = vec![];
+    let mut tokens = vec![next_token];
     loop { // on ne s'arrete que lorsque le eos token a été produit
         let x = Tensor::new(&[next_token], device)?.unsqueeze(0)?;
-        let logits = model.forward(&x, inputs_len + pos)?.squeeze(0)?;
+        let logits = model.forward(&x, pos)?.reshape(((),))?;
         
         pos       += 1;
         next_token = processor.sample(&logits)?;
         tokens.push(next_token);
-        
+
         if next_token == eos_token_id { break; }
     }
 
