@@ -1,0 +1,31 @@
+{
+    "doctype": "REMISSION",
+    "persons": [
+      {
+        "name": "Albert et Isabel Rey",
+        "role": "Document signatories"
+      },
+      {
+        "name": "Bertrand Jacque",
+        "role": "Petitioner"
+      },
+      {
+        "name": "Emmanuel Vander Meren",
+        "role": "Party involved in the incident"
+      },
+      {
+        "name": "Anne de Cambier",
+        "role": "Party involved in the incident"
+      }
+    ],
+    "act_date": "March 19, 1607",
+    "fact_date": "March 19, 1607",
+    "parishes": [],
+    "places": ["Albert and Isabel Rey's house", "Chapelle St Lambert"],
+    "summary": {
+      "en": "Albert and Isabel Rey grant a remission to Bertrand Jacque for an incident that occurred on March 19, 1607, at their house instead of the Chapelle St Lambert. Bertrand Jacque had been warned by Emmanuel Vander Meren and Anne de Cambier to stay away from their house due to bad rumors. However, they found each other at a tavern near the chapelle that same day and Bertrand Jacque assaulted Emmanuel Vander Meren, who was subsequently arrested and imprisoned. Albert and Isabel Rey, moved by Bertrand Jacque's humble request and their own mercy, granted him a pardon for the assault and homicide.",
+      "fr": "Albert et Isabel Rey accordent une remission à Bertrand Jacque pour un événement survenu le 19 mars 1607 à leur maison au lieu de la chapelle St Lambert. Bertrand Jacque avait été averti par Emmanuel Vander Meren et Anne de Cambier de rester loin de leur maison à cause de mauvaises rumeurs. Cependant, ils se sont rencontrés à une auberge près de la chapelle la même journée et Bertrand Jacque l'a agressé, qui a été ensuite arrêté et emprisonné. Albert et Isabel Rey, touchés par la supplique humble de Bertrand Jacque et leur propre miséricorde, lui ont accordé une grâce.",
+      "nl": "Albert en Isabel Rey verlenen een vergiffenis aan Bertrand Jacque voor een gebeuren dat op 19 maart 1607 in hun huis plaatsvond, in plaats van de Kapel St Lambert. Bertrand Jacque was door Emmanuel Vander Meren en Anne de Cambier gewaarschuwd om ver weg te blijven van hun huis wegens slechte geruchten. Maar ze vonden elkaar in een herberg bij de kapel diezelfde dag en Bertrand Jacque sloeg Emmanuel Vander Meren aan, die werd daarna gearresteerd en gevangengezet. Albert en Isabel Rey, gestoord door de humiele aanvraag van Bertrand Jacque en hun eigen genade, gaven hem gratie.",
+      "de": "Albert und Isabel Rey gewähren einer Entschuldigung an Bertrand Jacque für ein Geschehen, das am 19. März 1607 in ihrer Villa stattgefunden hat, anstelle der Kapelle St. Lambert. Bertrand Jacque war durch Emmanuel Vander Meren und Anne de Cambier gewarnt, weit weg von ihrer Villa zu bleiben, wegen schlechter Gerüchte. Aber sie trafen sich in einer Wirtschaft bei der Kapelle dasselbe Tag und Bertrand Jacque schlug Emmanuel Vander Meren, der daraufhin verhaftet und inhaftiert wurde. Albert und Isabel Rey, berührt von der humilen Anforderung von Bertrand Jacque und ihrer eigenen Gnade, gewährten ihm Gnade."
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "doctype": "REMISSION",
+    "persons": [
+      {
+        "name": "Charles etc",
+        "role": "Applicant"
+      },
+      {
+        "name": "Nicolas Le Seuer",
+        "role": "Host and servant of the Duke Frederick Palatin"
+      },
+      {
+        "name": "Duke Frederick Palatin",
+        "role": "Relative and witness"
+      },
+      {
+        "name": "Duc Frederick Palatin",
+        "role": "Relative and witness"
+      }
+    ],
+    "act_date": "xv c thirty-nine",
+    "fact_date": "UNKNOWN",
+    "parishes": [],
+    "places": ["Bruxelles", "Hostellerie du Miroir", "Berghestrate"],
+    "summary": {
+      "en": "Charles etc makes a remission to Nicolas Le Seuer for taking a harness without his consent in the Hostellerie du Miroir in Bruxelles. Duke Frederick Palatin and his cousin and nephew witness the remission.",       
+      "fr": "Charles etc fait une remission à Nicolas Le Seuer pour avoir pris un harnais sans son consentement dans l'hôtellerie du Miroir à Bruxelles. Le duc Frédéric Palatin et son cousin et neveu le témoignent.",
+      "nl": "Charles etc doet een vergiffenis aan Nicolas Le Seuer omdat hij een harnas had meegenomen zonder toestemming in de Herberg van het Spiegel in Brussel. Hertog Frederik Palatin en zijn neef en schoonzoon getuigen.", 
+      "de": "Charles etc gibt eine Entschuldigung an Nicolas Le Seuer, weil er in Brüssel in der Herberge des Spiegels ein Hemd ohne Zustimmung mitgenommen hatte. Der Herzog Friedrich Palatin und sein Neffe und Schwieger Sohn zeugen."
+    }
+}

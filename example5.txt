@@ -1,0 +1,44 @@
+[INST]
+<|im_start|>system
+# Instructions
+You are an assistant to the archivists of the kingdom. Your role is to help them extract metadata from achives document. Based on the given input document, you should give:
+- the type of document among the following possible classes: 'REMISSION', 'CONDEMNATION', 'UNKNOWN'
+- the persons mentioned in the document and their respective roles
+- the dates (if unsure use the 'UNKNOWN' mention)
+- the parishes (when there are none, leave the list empty)
+- the names of the locations mentioned in the texte (when there are none, leave the list empty)
+- a brief summary of the content of the document. This summary shall be translated in english, french, dutch, and german
+
+I want you to provide me with an output in json format. I want the json to adhere to the following json schema:
+
+```
+{
+  "doctype": "the document type among the following possible classes 'REMISSION', 'CONDEMNATION', 'UNKNOWN'",
+  "persons": [ // the list of people mentioned in the document
+        {
+          "name": "the name of the mentioned person",
+          "role": "the role of that person in the document (why is that person mentioned)"
+        }
+   ],
+  "act_date": "the date when the act has taken place (if unsure use the 'UNKNOWN' mention)",
+  "fact_date": "the date when the related facts have taken place (if unsure use the 'UNKNOWN' mention)",
+  "parishes": [ "the list of parishes mentioned in the document (when there are no parishes leave this list empty)" ],
+  "places": ["the list of places mentioned in the document (leave the list empty if no place are mentioned)"],
+  "summary": {
+    "en": "the english version of the document summary", 
+    "fr": "the french version of the document summary", 
+    "nl": "the dutch version of the document summary", 
+    "de": "the german version of the document summary", 
+  }
+}
+```
+
+# Constraints
+The assistant answer should strictly adhere to the json schema. No introductory text nor explanation shall be given, only the json output.
+<|im_end|>
+<|im_start|>user
+# Document	
+remissie charles etc scavoir faisons a tous presens et avenir nous avoir receu lumble supplication de gude de noorweghe contenant comme le jour de lassumption notre dame en cest an xv c trente neuf ledit suppliant et feu lors vivant nicolas leseuer serviteurs domesticques de notre treschier et tresame cousin et nepveu le duc frederick palatin estans en lhostellerie du miroir en la berghestrate en ceste notre ville de bruxelles faisans bonne chiere auroyent eu parolles et debat lung contre lautre a cause dung harnois que ledit suppliant avoit donne en garde a son hoste en la ville de enchuyse en hollande nomme langhe willem et parcidevant escoutette illecq que ledit nicolas avoit prins et emporte sans le sceu dudit suppliant parolles sen esmeurent eulx estans bien buz oudit miroir et hostellerie combien quilz estoient comme freres et bons amys ensemble tellement que ledit nicolas leseuer desgaigna premiers sa rappiere et frappit aprez ledit suppliant de sorte que ledit suppliant receut ung coup de ladite rapiere en sa main senestre de laquelle les quatre doitz luy en furent quasy copez et soy sentant ainsy blesche et navre et de ce esmeu de collere desgaigna aussy sa rapiere et en donnit audit nicolas tant seullement ung coup d’estocq en son doz duquel coup environ le cincquiesme jour aprez il termina vie par mort au tresgrant regret et desplaisir dudit suppliant et combien que ledit deffunct ait pardonne sa mort a icelluy suplyant a cause quil estoit mouvant dudit debat et quil avoit emporte ledit harnois sans son sceu comme aussy estant le premier desgaignant et semblablement a la requeste de notredit cousin et nepveu le duc frederick palatin la vesve dudit deffunct luy a aussy pardonne touteffoiz il noseroit hanter ne converser en noz pays et seignories ains len conviendra tenir absent se notre grace et misericorde ne luy est sur ce impartie dont actendu ce que dict est il nous a treshumblement suplye et requiz pource est il que nous les choses dessusdites considerees audit suppliant inclinans a sadite requeste et luy veullans en ceste partye preferer grace et misericorde a rigeur de justice mesmement a la contemplacion de notredit cousin et nepveu le duc frederick palatin avons ou caz dessusdit par ladvis de notre treschiere et tresamee seur la royne douaigiere de hongrie de boheme etc pour nous regente et gouvernante en noz pays de pardecha quicte remis et pardonne quictons remectons et pardonnons de grace especial par ces presentes le caz et homicide dessus declare ensemble toute payne et amende corporelle et criminelle enquoy pour raison et a loccasion dicelluy et des circonstances il peult avoir mesprins et estre incouru envers nous et justice et lavons quant a ce remis et restitue remectons et restitutons par cesdites presentes a ses bon nom fame et renommee en notredit pays de brabant et autres noz pays et seignouries ensemble a ses biens non confisquiez tout ainsy et par la maniere quil estoit au paravant ladvenue dudit caz imposant sur ce silence perpetuel a noz notre proucureur general et a tous autres noz justiciers et officiers satisfaction toutesvoyes faite a partye interessee se faicte nest et elle y chiet civillement et moyennant que ledit suppliant sera tenu amender ledit caz envers nous aussy civillement selon lexigence dicelluy et la faculte de biens et avec ce payer et resfondre les despens et mises raisonnables de justice saucuns en sont ensuyz a larbitraige et taxacion de nos amez et feaulx les chancellier et gens de notre conseil en brabant que commectons a ce ausquelz mandons que appellez pardenant eulx ceulx qui pour ce feront a appeller ilz procedent bien et deuement a la verifficacion et interinement de cesdites et presentes selon leur forme et teneur et a la taxacion de ladite amende civille et despens de justice lequel interinement ledit suppliant sera tenu requerir endedans ung au prouchainement venant a paine de perdre leffect dicelles et ce fait et icelle amende paye es mains de celluy de noz receveurs quil appertiendra lequel sera tenu en faire recepte et rendre compte et reliqua a notre prouffit avec les autres deniers de la recepte et lesdits despens de justice payez comme dict est ilz et tous autres nos justiciers et officiers cui ce regardera faicent seuffrent et laissent ledit suppliant joir et user de notre presente grace remission et pardon plainement et paisiblement sans luy faire mettre ou donner ne souffrir estre fait mis ou donne aucun destourbier ou empeschement au contraire ains se son corps feust prins detenu ou empeschie le mectent on faicent mettre tantost et sans delay a plaine et entiere delivrance car ainsy nous plaist il et affin que ce soit chose ferme et estable a tousjours nous avons fait mettre notre seel a ces presentes saulf en autres choses notre droit et lautruy en touttes donne en notre ville de bruxelles ou mois doctobre lan de grace mil cincq cens trente neuf de notre empire le xxme et de noz regnes de castille et autres le xxiiiie ainsy estoit escript sur la plicque par lempereur en son conseil et signe verreyken visa regestrata collation est faicte et concorde a son original par par moy
+<|im_end|>
+<|im_start|>assistant
+[/INST]

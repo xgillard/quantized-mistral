@@ -1,0 +1,44 @@
+[INST]
+<|im_start|>system
+# Instructions
+You are an assistant to the archivists of the kingdom. Your role is to help them extract metadata from achives document. Based on the given input document, you should give:
+- the type of document among the following possible classes: 'REMISSION', 'CONDEMNATION', 'UNKNOWN'
+- the persons mentioned in the document and their respective roles
+- the dates (if unsure use the 'UNKNOWN' mention)
+- the parishes (when there are none, leave the list empty)
+- the names of the locations mentioned in the texte (when there are none, leave the list empty)
+- a brief summary of the content of the document. This summary shall be translated in english, french, dutch, and german
+
+I want you to provide me with an output in json format. I want the json to adhere to the following json schema:
+
+```
+{
+  "doctype": "the document type among the following possible classes 'REMISSION', 'CONDEMNATION', 'UNKNOWN'",
+  "persons": [ // the list of people mentioned in the document
+        {
+          "name": "the name of the mentioned person",
+          "role": "the role of that person in the document (why is that person mentioned)"
+        }
+   ],
+  "act_date": "the date when the act has taken place (if unsure use the 'UNKNOWN' mention)",
+  "fact_date": "the date when the related facts have taken place (if unsure use the 'UNKNOWN' mention)",
+  "parishes": [ "the list of parishes mentioned in the document (when there are no parishes leave this list empty)" ],
+  "places": ["the list of places mentioned in the document (leave the list empty if no place are mentioned)"],
+  "summary": {
+    "en": "the english version of the document summary", 
+    "fr": "the french version of the document summary", 
+    "nl": "the dutch version of the document summary", 
+    "de": "the german version of the document summary", 
+  }
+}
+```
+
+# Constraints
+The assistant answer should strictly adhere to the json schema. No introductory text nor explanation shall be given, only the json output.
+<|im_end|>
+<|im_start|>user
+# Document
+remission albert et isabel rey ssavoir faisons a tous presens et advenir qu’avons receu lhumble supplication de bertrand jacque que combien quil saye tousiours este de gaigner sa vie par son labeur sans oncques eu querelle ou combat avecque personne sy est touttefois advenu que feu emanuel vander meren filz n van meren et de damoiselle anne de cambier et ? luy tombe en question accause que le suppliant venant dehors trouvant iceluy emanuel au xixe du mois de mars 1607 en sa maison au lieu de la chappelle st lambert, couche en lestable des vaches couvert destrain non obstant que quelque fois ledict suppliant avoit dict a sa femme et aussi audict emanuel quil ne vouloit que en son absente il ??? sa maison pour le mauvais bruict quil y pourrat et combien que ledict emanuel estant par ledict suppliant trouve et admoneste de se debvoir retere rethirer et sen aller en la maison de sa mere et texte barre debvait faire le mesme sans quelcune querelle sy at il icelle admonition toutefois prins de mauvaise part non de que le suppliant et luy par ensemble avoyent ??? beu en une taverne audict chapelle le mesme jour ce faisant ne se contenta de donner des coups de? audict suppliant tellement quiceluy fust contrainct de deffendre et ce faisant lui donna acecq ung avecque son cousteau ung coup dont par apres est mort au grand regret dudict suppliant qui onc ne pensit nayre ou faire du mal audict trepasse comme il neusse aussi faire sans sa presente invasion quoi considere quicelle invasion at este faicte luy suppliant sans cause et sans aulcunne preallable querelle selon quil appert par escript cy joint et que le suppliant desa passe bonne et par temps avoit donne charge a certan solliceteur en ce court affin de poursuivi les lettres de pardon et quil scavoit aultre chose synon quicelles furent desia ?? pensante y estre asseuere cy at il touteffois par drossart de brabant este seisy et constitue prisonnier en ceste ville, ou quil est pourle present encoirs detenu parquoy supplie tres humblement quil plaise a v s depescher ?nos lettres patentes de remission a ce servante pour il est il que nous ces choses susdictes considerees audict suppliant inclinans a sadicte requeste et luy veu vueillans en ce preferer grace et misericorde en rigeur de justice avons aue cas susdict quicte remis et pardonne quictons remetons et pardonnons de grace especialle par cestes le cas et homicide dessusddict avecq toute pame et amende corporelle et criminelle suquoi par cause et occasion diceluy cas le atois peult avoir mesprins ou estre encouru envers nous et justice et lanons quant ce restituer et restitons par ceste en la bonne fame et renomee en notredict pays de brabant et oultremeuze et par tous ailleurs a ces biens non onfisquez saulcuns en y a ainsy quil estoit avant ladvenue dudit cas imposant sur ce silence perpetuelle de nostre chier et feal procureur general en brabant et a nostre drossart de brabant et a tous aultres noz justiciers et officiers et aussy a ceulx de noz vassaulx satisfaction peallablement et a ??? toute oeuvre faict a la partie interessee se faict nest et elle y chiet civillement tant seullement pourvu que ledict suppliant sera tenue d’amender ledict cas envers nous et justice civillement selon lexigence de cas et la faculte de ces biens et aussi de payer ces fraict et mises de justice le tout a larbitraige et tauxation de noz aimez et feaulx les chancellier et gens de notre conseil en brabant que commectons a ce simandons er comandons a nosdict conseiller et gens de notredict conseil que appelez ceulx qui pour ce feront a appller ilz procedent bien et duemrnt a la verification et internnent de ces presentes et a larbitrage et tauxation de ladicte amende fraictz et mises de justice ainsi quil appertiendra lequel internement ledict suppliant suppliant serat tenu de requerir et soy par toutes en personne en notredict conseil endedans six mois prochain venants et ce faict et ladicte amende c??le fraictz et mises de justice tauxer anoderez et payez la et ainsi quil appertiendra ilz et tans aultres noz justiciers et officiers et aussy ceux de noz vasseaux facent seueffrent et laissent ledict suppliant et de notre presente grace remission et pardon selon et en forme et mabiere que dict est paisiblement plau ? en et perpetuellement joyr et user sans en celuy faire ou donner ny souffrir estre faict mis ou donne ores ne par?? temps advenu en corps ny en biens quelque destour ou empeschement au contraire avis si son corps ou quilcuns sesdict iens non confisquez estoient ou sont pource pris arrestez ou empescher les mectent ou facent mectre incontinent et sans delay a plaine delui rance car ainsy plaist il et affin que ce soit chose ferme et estable a ?? avons faict mectre nottre seel aces presentes san? en tout aultres choses notre droict et lantruy et toutes donnes en notre ville de bruxelles au mois de jullet lan de grace mil six cent et huicte la plicque estoit escrit par les archiducqs et soubsigne par piermons et estoit seele avecque ung grand seau de verde cire pendant de hors f cordon de soyes.
+<|im_end|>
+<|im_start|>assistant
+[/INST]
