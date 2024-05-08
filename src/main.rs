@@ -111,13 +111,13 @@ fn pipeline(model: &mut Model, tokenizer: &Tokenizer, device: &Device, prompt: &
     // priming the model with the prompt
     let mut pos = 0;
     let mut next_token = 0;
-    for chunk in inputs.chunks(512) {
+    for chunk in inputs.chunks(1024) {
         let x = Tensor::new(chunk, device)?.unsqueeze(0)?;
         let logits = model.forward_with_mask(&x, pos, None)?.reshape(((),))?;
         pos       += chunk.len();
         next_token = processor.sample(&logits)?;
     }
-    println!("== primed ==");
+    
     // actually generate the output (one token at the time)
     let mut tokens = vec![next_token];
     loop { // on ne s'arrete que lorsque le eos token a été produit
